@@ -454,20 +454,7 @@
                      ============================================ -->
                 <div class="email-signup">
                     <h3 id="emailHeading">Get Updates on Release Date</h3>
-                    <div class="email-form">
-                        <input 
-                            type="email" 
-                            class="email-input" 
-                            id="emailInput"
-                            placeholder="Enter your email"
-                        />
-                        <button class="btn btn-primary" onclick="handleEmailSignup()">
-                            Subscribe ✉️
-                        </button>
-                    </div>
-                    <div class="success-message" id="successMessage">
-                        ✓ Successfully subscribed!
-                    </div>
+                    <iframe src="https://kendrickclayborne.substack.com/embed" width="100%" height="280" style="border:1px solid #EEE; background:white; margin-top: 1rem;" frameborder="0" scrolling="no"></iframe>
                 </div>
             </div>
         </div>
@@ -640,41 +627,6 @@ Known for telling it like it is, Kendrick doesn't use flowery language to avoid 
                 alert('Please enter a valid email address');
                 return;
             }
-
-            // Send to Substack API
-            fetch(BOOK_CONFIG.substackUrl + '/api/v1/free', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: email
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                const successMessage = document.getElementById('successMessage');
-                successMessage.classList.add('show');
-                emailInput.value = '';
-                
-                setTimeout(() => {
-                    successMessage.classList.remove('show');
-                }, 3000);
-            })
-            .catch(error => {
-                // If there's an error, still show success message
-                // User can subscribe directly through Substack
-                const successMessage = document.getElementById('successMessage');
-                successMessage.classList.add('show');
-                emailInput.value = '';
-                
-                console.error('Substack subscription error:', error);
-                
-                setTimeout(() => {
-                    successMessage.classList.remove('show');
-                }, 3000);
-            });
-        }
 
         // Initialize page on load
         window.addEventListener('DOMContentLoaded', initializePage);
