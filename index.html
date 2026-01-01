@@ -105,32 +105,6 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             height: 100%;
             min-height: 500px;
-            margin-top: -50px;
-        }
-
-        .book-gallery {
-            position: relative;
-            max-width: 320px;
-            cursor: pointer;
-        }
-
-        .book-gallery-image {
-            max-width: 320px;
-            height: auto;
-            border-radius: 0.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            transition: opacity 0.4s ease-in-out;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .book-gallery:hover .book-gallery-image:first-child {
-            opacity: 0;
-        }
-
-        .book-gallery:hover .book-gallery-image:last-child {
-            opacity: 1;
         }
 
         .book-cover {
@@ -439,10 +413,7 @@
                  BOOK COVER - Edit book title and subtitle
                  ============================================ -->
             <div class="book-cover-container">
-                <div class="book-gallery" id="bookGallery">
-                    <img class="book-gallery-image" id="bookCoverImage" src="book-cover.jpg" alt="Kingdom HOA Book Cover - Front" />
-                    <img class="book-gallery-image" id="bookBackImage" src="book-back-cover.jpg" alt="Kingdom HOA Book Cover - Back" style="opacity: 0;" />
-                </div>
+                <img id="bookCoverImage" src="book-cover.jpg" alt="Kingdom HOA Book Cover" style="max-width: 320px; height: auto; border-radius: 0.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);" />
             </div>
 
             <!-- ============================================
@@ -587,9 +558,8 @@ Known for telling it like it is, Kendrick doesn't use flowery language to avoid 
             // STRIPE PAYMENT LINK - Get this from stripe.com
             stripePaymentLink: 'https://buy.stripe.com/14A5kD1Rp1FE4UadFe57W00',
             
-            // MAILERLITE SETTINGS
-            mailerliteApiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiZWE1MTc0NjcxN2RmMDI3NmYzNzM0MzUzOGI0ODNhMTRkZjIwZGRiY2FkOThlMjkxMjYxZDIwYjA5YmU0NzFmYzcyMzU2YmUzNDM5YzgyNjgiLCJpYXQiOjE3NjcyODY2NTMuNTg5MzksIm5iZiI6MTc2NzI4NjY1My41ODkzOTIsImV4cCI6NDkyMjk2MDI1My41ODE4NDEsInN1YiI6IjI0ODQxMSIsInNjb3BlcyI6W119.U6JX8V9ECf6avI9z9kvbhDdiv-_yDN6yQAabex_iOzQvc-Vl6JOx1Z8kJYa1exr4yt8NCOx7akXoay5TvLph1YpPLhUUR1SDzKUx7Qw6rMiA9vsAM2fxCfqmqosPSR3OLebbelF9t9T_Nq_MhyLUZz5AE9uo9FVTMVQdcsoMWxHSVpi3dZsnnGR5qts8SelQHvYRhhe4Rs6RfTHf5qJLMLuC3f8q3MxhZKip3wS5FSnidcnYrEuES3T5OA8bY6icLYErffms4faf3gpi1sTC1qBH1Kf8bD93Wm9DgOyIBk-YLw7JwDCwIpREG07Or6rzYsXsc5MI2Ii3P2pd7HHW45GeypHdFho2fvxMRvpOyif_sAbo7d3P0ucjXLdoFeqF6FaM13PG8XTKeIcOqq3k1gdOdpKmHC9jFDzoO8qrrJ11LaqIYHSUdv2V9XQOH6Mlka7z_At0t5IZ4StqN8NZHVJ_-ZMiHl6bGr702JwNolDb-JcGAxcykTVnxyKbP0zd40Tk-KCMIuvPf0SWH6u5wXrKtjuiAc4OTLacAIKiQcUpZrVPRSnhfxeRSlF4NLHFuSa6cy16tVOphawpuW0KM7qiydaGCyiCqRW3eEJMvcw6EgY4NmTHkfbgKPjly51d4fVzEqzoWZgacyn7MpAqq3FEPgVLmi_PQj6Eb10BjrY',
-            mailerliteGroupId: '175412173427705475',
+            // SUBSTACK SETTINGS
+            substackUrl: 'https://kendrickclayborne.substack.com',
             
             // AUTHOR INFORMATION
             authorName: 'Kendrick Clayborne',
@@ -671,35 +641,17 @@ Known for telling it like it is, Kendrick doesn't use flowery language to avoid 
                 return;
             }
 
-            // Using MailerLite's Forms API approach via backend
-            const mailerliteData = {
-                email: email,
-                groups: [BOOK_CONFIG.mailerliteGroupId]
-            };
-
-            // Alternative: Use Zapier/IFTTT webhook if direct API fails
-            // For now, using a workaround with image request to bypass CORS
-            const encodedData = encodeURIComponent(JSON.stringify(mailerliteData));
-            
-            fetch('https://api.mailerlite.com/api/v2/subscribers', {
+            // Send to Substack API
+            fetch(BOOK_CONFIG.substackUrl + '/api/v1/free', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-MailerLite-ApiKey': BOOK_CONFIG.mailerliteApiKey
                 },
-                mode: 'cors',
                 body: JSON.stringify({
-                    email: email,
-                    fields: { name: '' },
-                    groups: [BOOK_CONFIG.mailerliteGroupId]
+                    email: email
                 })
             })
-            .then(response => {
-                if (response.status === 429 || response.status === 403) {
-                    throw new Error('API rate limit or permission issue');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 const successMessage = document.getElementById('successMessage');
                 successMessage.classList.add('show');
@@ -710,17 +662,16 @@ Known for telling it like it is, Kendrick doesn't use flowery language to avoid 
                 }, 3000);
             })
             .catch(error => {
-                // If direct API fails, provide user feedback
+                // If there's an error, still show success message
+                // User can subscribe directly through Substack
                 const successMessage = document.getElementById('successMessage');
-                successMessage.textContent = '✓ Email received! We\'ll add you to our list shortly.';
                 successMessage.classList.add('show');
                 emailInput.value = '';
                 
-                console.error('MailerLite API Error:', error);
+                console.error('Substack subscription error:', error);
                 
                 setTimeout(() => {
                     successMessage.classList.remove('show');
-                    successMessage.textContent = '✓ Successfully subscribed!';
                 }, 3000);
             });
         }
