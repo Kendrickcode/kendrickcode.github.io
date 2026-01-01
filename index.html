@@ -107,6 +107,31 @@
             min-height: 500px;
         }
 
+        .book-gallery {
+            position: relative;
+            max-width: 320px;
+            cursor: pointer;
+        }
+
+        .book-gallery-image {
+            max-width: 320px;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: opacity 0.4s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .book-gallery:hover .book-gallery-image:first-child {
+            opacity: 0;
+        }
+
+        .book-gallery:hover .book-gallery-image:last-child {
+            opacity: 1;
+        }
+
         .book-cover {
             background: linear-gradient(135deg, #374151 0%, #111827 100%);
             border-radius: 0.5rem;
@@ -413,7 +438,10 @@
                  BOOK COVER - Edit book title and subtitle
                  ============================================ -->
             <div class="book-cover-container">
-                <img id="bookCoverImage" src="book-cover.jpg" alt="Kingdom HOA Book Cover" style="max-width: 320px; height: auto; border-radius: 0.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);" />
+                <div class="book-gallery" id="bookGallery">
+                    <img class="book-gallery-image" id="bookCoverImage" src="book-cover.jpg" alt="Kingdom HOA Book Cover - Front" />
+                    <img class="book-gallery-image" id="bookBackImage" src="book-back-cover.jpg" alt="Kingdom HOA Book Cover - Back" style="opacity: 0;" />
+                </div>
             </div>
 
             <!-- ============================================
