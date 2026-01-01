@@ -426,9 +426,9 @@
                 <h2 id="mainTitle">Kingdom HOA: Managing Life According to the Developers Design</h2>
 
                 <div class="button-group">
-                    <button class="btn btn-primary" onclick="handlePreOrder()">
+                    <a href="https://buy.stripe.com/14A5kD1Rp1FE4UadFe57W00" target="_blank" class="btn btn-primary">
                         🛒 <span id="buttonText">Pre-Order Now</span>
-                    </button>
+                    </a>
                     <button class="btn btn-secondary" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
                         Learn More
                     </button>
@@ -614,10 +614,6 @@ Known for telling it like it is, Kendrick doesn't use flowery language to avoid 
             }
             document.getElementById('footerInstagram').href = BOOK_CONFIG.instagramUrl;
             document.getElementById('footerEmail').href = `mailto:${BOOK_CONFIG.emailAddress}`;
-        }
-
-        function handlePreOrder() {
-            window.open(BOOK_CONFIG.stripePaymentLink, '_blank');
         }
 
         // Initialize page on load
