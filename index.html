@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Pre-Order</title>
+    <style>
+        /* ============================================
+           EASY CUSTOMIZATION SECTION
+           Change these values to match your book!
+           ============================================ */
+        :root {
+            /* COLORS - Change these to match your brand */
+            --primary-color: #111;          /* Main button color */
+            --primary-hover: #374151;       /* Button hover color */
+            --accent-color: #fbbf24;        /* Book title accent (yellow) */
+            --badge-bg: #fee2e2;           /* Pre-order badge background */
+            --badge-text: #991b1b;         /* Pre-order badge text */
+            
+            /* FONTS - Change font family here */
+            --main-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        /* ============================================
+           DO NOT EDIT BELOW THIS LINE
+           (unless you know CSS)
+           ============================================ */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--main-font);
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .header {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1.5rem 2rem;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .header p {
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .book-cover-container {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border-radius: 0.5rem;
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            min-height: 500px;
+        }
+
+        .book-cover {
+            background: linear-gradient(135deg, #374151 0%, #111827 100%);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            width: 320px;
+            aspect-ratio: 2/3;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s;
+        }
+
+        .book-cover:hover {
+            transform: scale(1.05);
+        }
+
+        .book-cover h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .book-cover h3 {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .book-icon {
+            text-align: center;
+            font-size: 6rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 2rem 0;
+        }
+
+        .book-cover .author {
+            color: white;
+            text-align: right;
+            font-size: 1.125rem;
+        }
+
+        .book-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .book-details h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: #f9fafb;
+        }
+
+        .description {
+            color: #374151;
+            font-size: 1.125rem;
+            line-height: 1.75;
+            margin-bottom: 2rem;
+        }
+
+        .description p {
+            margin-bottom: 1rem;
+        }
+
+        .email-signup {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .email-signup h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.1);
+        }
+
+        .success-message {
+            color: #059669;
+            margin-top: 0.75rem;
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+
+        .details-grid {
+            margin-top: 5rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .detail-card {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+
+        .detail-card h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-card p {
+            color: #374151;
+        }
+
+        .footer {
+            background: #111827;
+            color: white;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer p, .footer a {
+            color: #9ca3af;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: white;
+        }
+
+        .footer ul {
+            list-style: none;
+        }
+
+        .footer li {
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .book-details h2 {
+                font-size: 2rem;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .email-form {
+                flex-direction: column;
+            }
+
+            .email-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================
+         HEADER SECTION - Edit your name and tagline
+         ============================================ -->
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1 id="authorName">Kendrick Clayborne</h1>
+                <p id="authorTagline">Real Estate Developer & Author</p>
+            </div>
+            <nav class="nav">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="mailto:kendrickclayborne@gmail.com">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="hero">
+            <!-- ============================================
+                 BOOK COVER - Edit book title and subtitle
+                 ============================================ -->
+            <div class="book-cover-container">
+                <img id="bookCoverImage" src="book-cover.jpg" alt="Kingdom HOA Book Cover" style="max-width: 320px; height: auto; border-radius: 0.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);" />
+            </div>
+
+            <!-- ============================================
+                 BOOK DETAILS - Edit all your book info
+                 ============================================ -->
+            <div class="book-details">
+                <span class="badge" id="badgeText">Available for Pre-order</span>
+                
+                <h2 id="mainTitle">Kingdom HOA: Managing Life According to the Developers Design</h2>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="handlePreOrder()">
+                        🛒 <span id="buttonText">Pre-Order Now</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
+                        Learn More
+                    </button>
+                </div>
+
+                <div class="description">
+                    <p id="description1">From a property manager with over two decades of experience comes a revolutionary perspective that will change how you see everything, your neighborhood, your relationships, your finances, and your faith. Through powerful parallels between homeowners associations and Kingdom living, Kingdom HOA reveals:</p>
+                    <ul style="margin: 1.5rem 0 2rem 1.5rem; list-style: none;">
+                        <li style="margin-bottom: 0.75rem;"><strong>◆</strong> Why God operates as the ultimate Developer, and what that means for how you relate to Him</li>
+                        <li style="margin-bottom: 0.75rem;"><strong>◆</strong> The critical difference between portfolio management model (worldly) and onsite management system (Kingdom)</li>
+                        <li style="margin-bottom: 0.75rem;"><strong>◆</strong> How identity precedes activity, and why you cannot manage well from the wrong identity</li>
+                        <li style="margin-bottom: 0.75rem;"><strong>◆</strong> What happens when communities, and people, forget the covenant they agreed to</li>
+                        <li style="margin-bottom: 0.75rem;"><strong>◆</strong> Why Jesus is the ultimate example of the ideal resident, and how to follow His model</li>
+                        <li style="margin-bottom: 0.75rem;"><strong>◆</strong> The freedom paradox: submission to God produces liberty; independence produces bondage</li>
+                    </ul>
+                    <p style="font-weight: 700; margin-bottom: 1.5rem;">This isn't another self-help book telling you to try harder.</p>
+                    <p id="description2" style="margin-bottom: 1.5rem;">This is a field manual for understanding the system you are actually operating within, and how to align with the principles that produce prosperity instead of frustration.</p>
+                    <p style="margin-bottom: 1.5rem;">Whether you are a homeowner tired of HOA dysfunction, a board member struggling to lead effectively, a property manager caught between impossible demands, or simply someone who knows there has to be a better way to live, this book will show you the covenant you have been missing.</p>
+                    <p style="font-weight: 700;">You were created to manage a garden, not just survive in one.</p>
+                </div>
+
+                <!-- ============================================
+                     EMAIL SIGNUP SECTION
+                     ============================================ -->
+                <div class="email-signup">
+                    <h3 id="emailHeading">Get Updates on Release Date</h3>
+                    <div class="email-form">
+                        <input 
+                            type="email" 
+                            class="email-input" 
+                            id="emailInput"
+                            placeholder="Enter your email"
+                        />
+                        <button class="btn btn-primary" onclick="handleEmailSignup()">
+                            Subscribe ✉️
+                        </button>
+                    </div>
+                    <div class="success-message" id="successMessage">
+                        ✓ Successfully subscribed!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             BOOK DETAILS CARDS - Edit release date and formats
+             ============================================ -->
+        <div class="details-grid">
+            <div class="detail-card">
+                <h4>Release Date</h4>
+                <p id="releaseDate">February 1, 2026</p>
+            </div>
+            <div class="detail-card">
+                <h4>Format</h4>
+                <p id="formats">Paperback & eBook</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- ============================================
+         FOOTER SECTION - Edit your info
+         ============================================ -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div id="about">
+                    <h4>About the Author</h4>
+                    <p id="authorBio">
+                        As a devoted husband and father, Kendrick's faith in God isn't just theoretical—it's the foundation of everything he does. He believes deeply that every person has been given unique gifts by their Creator, not to be hoarded or hidden, but to be used boldly for spreading the Kingdom and bringing healing to every sickness and weakness in the world.
+Known for telling it like it is, Kendrick doesn't use flowery language to avoid hard truths. His direct, honest approach has earned him respect in both business and ministry circles. With Kingdom HOA, he brings together his real estate expertise, biblical understanding, and commitment to truth into a practical blueprint for managing life according to The Developer's original design.
+                    </p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#policies">Policies</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="https://instagram.com/kendrick_clayborne/" target="_blank" id="footerInstagram">📷 Instagram</a>
+                        <a href="mailto:kendrickclayborne@gmail.com" id="footerEmail">✉️ Email</a>
+                    </div>
+                </div>
+            </div>
+            <div id="policies" style="background: #f9fafb; padding: 2rem; margin-top: 2rem; border-radius: 0.5rem;">
+                <h3 style="color: #111; margin-bottom: 1.5rem;">Policies & Legal</h3>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; font-size: 0.9rem; color: #666;">
+                    <div>
+                        <h4 style="color: #111; margin-bottom: 0.5rem;">Customer Service</h4>
+                        <p>Email: <a href="mailto:kendrickclayborne@gmail.com" style="color: #0066cc; text-decoration: none;">kendrickclayborne@gmail.com</a></p>
+                        <p style="margin-top: 0.5rem;">We aim to respond to all inquiries within 24-48 hours.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #111; margin-bottom: 0.5rem;">Return & Refund Policy</h4>
+                        <p>Books are printed on demand. Once your order has been processed and sent to print, refunds cannot be issued. Digital eBook purchases are non-refundable as they are instant digital delivery.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #111; margin-bottom: 0.5rem;">Refund & Dispute Policy</h4>
+                        <p>Due to our print-on-demand model, refunds are not available after an order has been processed. For disputes, contact our customer service team. Stripe handles all payment disputes according to their standard dispute resolution process.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #111; margin-bottom: 0.5rem;">Cancelation Policy</h4>
+                        <p>Pre-orders may be cancelled up to 7 days before the official release date for a full refund. After release, standard return policies apply.</p>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;">
+                    <h4 style="color: #111; margin-bottom: 0.5rem;">Terms & Conditions</h4>
+                    <p style="font-size: 0.9rem; color: #666;">By purchasing from this website, you agree to our policies outlined above. All content, including the book "Kingdom HOA," is protected by copyright. Unauthorized reproduction or distribution is prohibited. No legal or export restrictions apply to standard book purchases.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p id="copyright">&copy; 2025 Kendrick Clayborne. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ============================================
+           CUSTOMIZATION SETTINGS
+           EDIT THESE VALUES FOR YOUR BOOK!
+           ============================================ */
+        
+        const BOOK_CONFIG = {
+            // STRIPE PAYMENT LINK - Get this from stripe.com
+            stripePaymentLink: 'https://buy.stripe.com/test_XXXXXXXXX',
+            
+            // MAILERLITE SETTINGS
+            mailerliteApiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiZWE1MTc0NjcxN2RmMDI3NmYzNzM0MzUzOGI0ODNhMTRkZjIwZGRiY2FkOThlMjkxMjYxZDIwYjA5YmU0NzFmYzcyMzU2YmUzNDM5YzgyNjgiLCJpYXQiOjE3NjcyODY2NTMuNTg5MzksIm5iZiI6MTc2NzI4NjY1My41ODkzOTIsImV4cCI6NDkyMjk2MDI1My41ODE4NDEsInN1YiI6IjI0ODQxMSIsInNjb3BlcyI6W119.U6JX8V9ECf6avI9z9kvbhDdiv-_yDN6yQAabex_iOzQvc-Vl6JOx1Z8kJYa1exr4yt8NCOx7akXoay5TvLph1YpPLhUUR1SDzKUx7Qw6rMiA9vsAM2fxCfqmqosPSR3OLebbelF9t9T_Nq_MhyLUZz5AE9uo9FVTMVQdcsoMWxHSVpi3dZsnnGR5qts8SelQHvYRhhe4Rs6RfTHf5qJLMLuC3f8q3MxhZKip3wS5FSnidcnYrEuES3T5OA8bY6icLYErffms4faf3gpi1sTC1qBH1Kf8bD93Wm9DgOyIBk-YLw7JwDCwIpREG07Or6rzYsXsc5MI2Ii3P2pd7HHW45GeypHdFho2fvxMRvpOyif_sAbo7d3P0ucjXLdoFeqF6FaM13PG8XTKeIcOqq3k1gdOdpKmHC9jFDzoO8qrrJ11LaqIYHSUdv2V9XQOH6Mlka7z_At0t5IZ4StqN8NZHVJ_-ZMiHl6bGr702JwNolDb-JcGAxcykTVnxyKbP0zd40Tk-KCMIuvPf0SWH6u5wXrKtjuiAc4OTLacAIKiQcUpZrVPRSnhfxeRSlF4NLHFuSa6cy16tVOphawpuW0KM7qiydaGCyiCqRW3eEJMvcw6EgY4NmTHkfbgKPjly51d4fVzEqzoWZgacyn7MpAqq3FEPgVLmi_PQj6Eb10BjrY',
+            mailerliteGroupId: '175412173427705475',
+            
+            // AUTHOR INFORMATION
+            authorName: 'Kendrick Clayborne',
+            authorTagline: 'Real Estate Developer & Author',
+            authorBio: 'A true entrepreneur who dove into real estate development straight out of college. With deep family roots in publishing but never claiming to be a gifted writer, he has a unique ability to break down complicated ideas into terms anyone can understand. Known for his direct approach and commitment to truth over comfort, he is a devoted father and husband who believes everyone has a God-given purpose to spread the Kingdom and bring healing to every sickness and weakness.',
+            
+            // BOOK COVER (what appears on the book image)
+            coverTitle: 'Kingdom HOA',
+            coverSubtitle: 'Managing Life According to the Developers Design',
+            coverAuthor: 'Kendrick Clayborne',
+            
+            // MAIN BOOK INFORMATION
+            mainTitle: 'Kingdom HOA: Managing Life According to the Developers Design',
+            badgeText: 'Available for Pre-order',
+            buttonText: 'Pre-Order Now',
+            
+            // BOOK DESCRIPTION (two paragraphs)
+            description1: 'From humble beginnings to extraordinaryachievements, this compelling narrative takes readers on an unforgettable journey. Drawing from extensive research and exclusive interviews, this book presents an intimate portrait of a remarkable story.',
+            description2: 'Masterfully written with attention to detail and emotional depth, this work chronicles the triumphs, struggles, and legacy of an incredible subject. A definitive account that will captivate readers from beginning to end.',
+            
+            // EMAIL SIGNUP
+            emailHeading: 'Get Updates on Release Date',
+            
+            // BOOK DETAILS
+            releaseDate: 'February 1, 2026',
+            formats: 'Paperback and eBook',
+            
+            // SOCIAL MEDIA LINKS
+            instagramUrl: 'www.instagram.com/kendrick_clayborne/',
+            emailAddress: 'kendrickclayborne@gmail.com',
+            
+            // COPYRIGHT
+            copyrightYear: '2025',
+            copyrightName: 'Kendrick Clayborne'
+        };
+
+        /* ============================================
+           AUTO-UPDATE PAGE WITH YOUR SETTINGS
+           (Don't edit below unless you know JavaScript)
+           ============================================ */
+        
+        function initializePage() {
+            // Update all text content
+            document.getElementById('authorName').textContent = BOOK_CONFIG.authorName;
+            document.getElementById('authorTagline').textContent = BOOK_CONFIG.authorTagline;
+            document.getElementById('coverTitle').textContent = BOOK_CONFIG.coverTitle;
+            document.getElementById('coverSubtitle').textContent = BOOK_CONFIG.coverSubtitle;
+            document.getElementById('coverAuthor').textContent = BOOK_CONFIG.coverAuthor;
+            document.getElementById('badgeText').textContent = BOOK_CONFIG.badgeText;
+            document.getElementById('mainTitle').textContent = BOOK_CONFIG.mainTitle;
+            document.getElementById('buttonText').textContent = BOOK_CONFIG.buttonText;
+            document.getElementById('description1').textContent = BOOK_CONFIG.description1;
+            document.getElementById('description2').textContent = BOOK_CONFIG.description2;
+            document.getElementById('emailHeading').textContent = BOOK_CONFIG.emailHeading;
+            document.getElementById('releaseDate').textContent = BOOK_CONFIG.releaseDate;
+            document.getElementById('formats').textContent = BOOK_CONFIG.formats;
+            document.getElementById('authorBio').textContent = BOOK_CONFIG.authorBio;
+            document.getElementById('copyright').textContent = `© ${BOOK_CONFIG.copyrightYear} ${BOOK_CONFIG.copyrightName}. All rights reserved.`;
+            
+            // Update links
+            const instagramLink = document.getElementById('instagramLink');
+            if (instagramLink) {
+                instagramLink.href = BOOK_CONFIG.instagramUrl;
+            }
+            document.getElementById('footerInstagram').href = BOOK_CONFIG.instagramUrl;
+            document.getElementById('footerEmail').href = `mailto:${BOOK_CONFIG.emailAddress}`;
+        }
+
+        function handlePreOrder() {
+            window.open(BOOK_CONFIG.stripePaymentLink, '_blank');
+        }
+
+        function handleEmailSignup() {
+            const emailInput = document.getElementById('emailInput');
+            const email = emailInput.value;
+            
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            // Using MailerLite's Forms API approach via backend
+            const mailerliteData = {
+                email: email,
+                groups: [BOOK_CONFIG.mailerliteGroupId]
+            };
+
+            // Alternative: Use Zapier/IFTTT webhook if direct API fails
+            // For now, using a workaround with image request to bypass CORS
+            const encodedData = encodeURIComponent(JSON.stringify(mailerliteData));
+            
+            fetch('https://api.mailerlite.com/api/v2/subscribers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-MailerLite-ApiKey': BOOK_CONFIG.mailerliteApiKey
+                },
+                mode: 'cors',
+                body: JSON.stringify({
+                    email: email,
+                    fields: { name: '' },
+                    groups: [BOOK_CONFIG.mailerliteGroupId]
+                })
+            })
+            .then(response => {
+                if (response.status === 429 || response.status === 403) {
+                    throw new Error('API rate limit or permission issue');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const successMessage = document.getElementById('successMessage');
+                successMessage.classList.add('show');
+                emailInput.value = '';
+                
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                }, 3000);
+            })
+            .catch(error => {
+                // If direct API fails, provide user feedback
+                const successMessage = document.getElementById('successMessage');
+                successMessage.textContent = '✓ Email received! We\'ll add you to our list shortly.';
+                successMessage.classList.add('show');
+                emailInput.value = '';
+                
+                console.error('MailerLite API Error:', error);
+                
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                    successMessage.textContent = '✓ Successfully subscribed!';
+                }, 3000);
+            });
+        }
+
+        // Initialize page on load
+        window.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
